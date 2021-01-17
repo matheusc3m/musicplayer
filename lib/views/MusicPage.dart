@@ -26,6 +26,57 @@ class MusicPage extends StatelessWidget {
           "Escape from LA",
           style: TextStyle(color: Colors.white, fontSize: 30),
         ),
+        Text(
+          "The Weekend",
+          style: TextStyle(color: Color(0xFF5d6991), fontSize: 20),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Row(children: [
+            Text(
+              "0:00",
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
+            Expanded(
+              child: Slider(
+                activeColor: Colors.deepPurple,
+                value: 0,
+                onChanged: (v) {},
+              ),
+            ),
+            Text(
+              "3:00",
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          ]),
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          IconButton(
+            splashRadius: 30,
+            color: Color(0xFF474575),
+            iconSize: 40,
+            icon: Icon(
+              Icons.fast_rewind,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            splashRadius: 40,
+            color: Colors.deepPurple,
+            iconSize: 70,
+            icon: Icon(Icons.play_circle_fill),
+            onPressed: () {},
+          ),
+          IconButton(
+            splashRadius: 30,
+            color: Color(0xFF474575),
+            iconSize: 40,
+            icon: Icon(
+              Icons.fast_forward,
+            ),
+            onPressed: () {},
+          )
+        ]),
       ]),
     );
   }

@@ -71,8 +71,11 @@ class CustomListView extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          child: FlutterLogo(
-                            size: 50,
+                          child: Image.network(
+                            "https://fanart.tv/fanart/music/c8b03190-306c-4120-bb0b-6f2ebfc06ea9/albumcover/after-hours-5e756e2ce9573.jpg",
+                            fit: BoxFit.fill,
+                            height: 350.0,
+                            width: 350.0,
                           ),
                         ),
                         SizedBox(
