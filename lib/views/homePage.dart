@@ -5,7 +5,7 @@ import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:musicplayer/arguments/musicArgs.dart';
 
 var lista = ["1", "2", "3"];
-bool isLoading = false;
+bool isLoading = true;
 List<SongInfo> songs;
 
 class HomePage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     songs = await audioQuery.getSongs();
 
     setState(() {
-      isLoading = true;
+      isLoading = false;
     }); //update the UI
   }
 
@@ -32,34 +32,35 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          "Minhas músicas",
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Color(0xFF8394c6),
-                size: 30,
-              ),
-              onPressed: () {})
-        ],
-        backgroundColor: Colors.transparent,
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: CustomListView(),
-            ),
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(
+            "Minhas músicas",
+            style: TextStyle(color: Colors.white, fontSize: 25),
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Color(0xFF8394c6),
+                  size: 30,
+                ),
+                onPressed: () {})
           ],
+          backgroundColor: Colors.transparent,
         ),
-      ),
-    );
+        body: isLoading == false
+            ? SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: CustomListView(),
+                    ),
+                  ],
+                ),
+              )
+            : Text("Carregando"));
   }
 }
 
@@ -126,18 +127,32 @@ class CustomListView extends StatelessWidget {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                songs[index].title,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                              SizedBox(
+                                width: 200.0,
+                                child: Text(
+                                  songs[index].title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
                               ),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                songs[index].artist,
-                                style: TextStyle(
-                                    color: Color(0xFF8ea1d6), fontSize: 18),
+                              SizedBox(
+                                width: 200.0,
+                                child: Text(
+                                  songs[index].artist,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Color(0xFF8ea1d6), fontSize: 18),
+                                ),
                               ),
                             ]),
                       ],

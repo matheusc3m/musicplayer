@@ -21,14 +21,20 @@ class _MusicPageState extends State<MusicPage> {
       body: Column(children: [
         Center(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.file(
-              File(args.image),
-              fit: BoxFit.fill,
-              height: 350.0,
-              width: 350.0,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(8.0),
+              child: args.image != null
+                  ? Image.file(
+                      File(args.image),
+                      fit: BoxFit.fill,
+                      height: 350.0,
+                      width: 350.0,
+                    )
+                  : Image.network(
+                      "https://conteudo.imguol.com.br/c/noticias/cf/2019/08/10/fone-de-ouvido---tilt-1565457983857_v2_450x337.png",
+                      fit: BoxFit.fill,
+                      height: 350.0,
+                      width: 350.0,
+                    )),
         ),
         SizedBox(height: 40),
         Text(
