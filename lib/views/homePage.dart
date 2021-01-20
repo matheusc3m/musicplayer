@@ -1,8 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:musicplayer/arguments/musicArgs.dart';
 
 var lista = ["1", "2", "3"];
+bool isLoading = false;
+List<SongInfo> songs;
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FlutterAudioQuery audioQuery = FlutterAudioQuery();
+  void getFiles() async {
+    songs = await audioQuery.getSongs();
+
+    setState(() {
+      isLoading = true;
+    }); //update the UI
+  }
+
+  @override
+  void initState() {
+    getFiles(); //call getFiles() function on initial state.
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +67,7 @@ class CustomListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: lista.length,
+        itemCount: songs.length ?? 0,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(bottom: 20),
@@ -62,7 +88,16 @@ class CustomListView extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/music");
+                  Navigator.pushNamed(
+                    context,
+                    "/music",
+                    arguments: MusicArgs(
+                        path: songs[index].filePath,
+                        duration: songs[index].duration,
+                        name: songs[index].title,
+                        image: songs[index].albumArtwork,
+                        author: songs[index].artist),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,12 +106,19 @@ class CustomListView extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          child: Image.network(
-                            "https://fanart.tv/fanart/music/c8b03190-306c-4120-bb0b-6f2ebfc06ea9/albumcover/after-hours-5e756e2ce9573.jpg",
-                            fit: BoxFit.fill,
-                            height: 350.0,
-                            width: 350.0,
-                          ),
+                          child: songs[index].albumArtwork == null
+                              ? Image.network(
+                                  "https://conteudo.imguol.com.br/c/noticias/cf/2019/08/10/fone-de-ouvido---tilt-1565457983857_v2_450x337.png",
+                                  fit: BoxFit.fill,
+                                  height: 350.0,
+                                  width: 350.0,
+                                )
+                              : Image.file(
+                                  File(songs[index].albumArtwork),
+                                  fit: BoxFit.fill,
+                                  height: 350.0,
+                                  width: 350.0,
+                                ),
                         ),
                         SizedBox(
                           width: 10,
@@ -85,15 +127,15 @@ class CustomListView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Toosie Slide",
+                                songs[index].title,
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                    color: Colors.white, fontSize: 15),
                               ),
                               SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                "Drake",
+                                songs[index].artist,
                                 style: TextStyle(
                                     color: Color(0xFF8ea1d6), fontSize: 18),
                               ),
@@ -101,7 +143,10 @@ class CustomListView extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "4:00",
+                      Duration(
+                              milliseconds: int.tryParse(songs[index].duration))
+                          .inMinutes
+                          .toString(),
                       style: TextStyle(color: Color(0xFF8ea1d6), fontSize: 18),
                     ),
                   ],

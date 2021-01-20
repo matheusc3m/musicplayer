@@ -1,8 +1,17 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class MusicPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:musicplayer/arguments/musicArgs.dart';
+
+class MusicPage extends StatefulWidget {
+  @override
+  _MusicPageState createState() => _MusicPageState();
+}
+
+class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
+    final MusicArgs args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -13,8 +22,8 @@ class MusicPage extends StatelessWidget {
         Center(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              "https://fanart.tv/fanart/music/c8b03190-306c-4120-bb0b-6f2ebfc06ea9/albumcover/after-hours-5e756e2ce9573.jpg",
+            child: Image.file(
+              File(args.image),
               fit: BoxFit.fill,
               height: 350.0,
               width: 350.0,
@@ -23,11 +32,11 @@ class MusicPage extends StatelessWidget {
         ),
         SizedBox(height: 40),
         Text(
-          "Escape from LA",
+          args.name,
           style: TextStyle(color: Colors.white, fontSize: 30),
         ),
         Text(
-          "The Weekend",
+          args.author,
           style: TextStyle(color: Color(0xFF5d6991), fontSize: 20),
         ),
         Container(
