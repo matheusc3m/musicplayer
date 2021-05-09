@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:musicplayer/views/MusicPage.dart';
 import 'package:musicplayer/views/homePage.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => HomePage(),
+        '/': (context) => AudioServiceWidget(child: HomePage()),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/music': (context) => MusicPage(),
       },
