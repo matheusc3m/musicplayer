@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:musicplayer/arguments/musicArgs.dart';
+import 'package:musicplayer/utils/handle_time.dart';
 
 bool isLoading = true;
 List<SongInfo> songs;
@@ -159,9 +160,9 @@ class CustomListView extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    Duration(milliseconds: int.tryParse(songs[index].duration))
-                        .inMinutes
-                        .toString(),
+                    HandleTime.convertMsToHour(
+                      int.parse(songs[index].duration),
+                    ),
                     style: TextStyle(color: Color(0xFF8ea1d6), fontSize: 18),
                   ),
                 ],

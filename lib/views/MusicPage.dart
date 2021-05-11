@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:musicplayer/arguments/musicArgs.dart';
 import 'package:musicplayer/client/background.dart';
+import 'package:musicplayer/utils/handle_time.dart';
 
 class MusicPage extends StatefulWidget {
   @override
@@ -32,20 +32,21 @@ class _MusicPageState extends State<MusicPage> {
         children: [
           Center(
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: args.image != null
-                    ? Image.file(
-                        File(args.image),
-                        fit: BoxFit.fill,
-                        height: 350.0,
-                        width: 350.0,
-                      )
-                    : Image.network(
-                        "https://conteudo.imguol.com.br/c/noticias/cf/2019/08/10/fone-de-ouvido---tilt-1565457983857_v2_450x337.png",
-                        fit: BoxFit.fill,
-                        height: 350.0,
-                        width: 350.0,
-                      )),
+              borderRadius: BorderRadius.circular(8.0),
+              child: args.image != null
+                  ? Image.file(
+                      File(args.image),
+                      fit: BoxFit.fill,
+                      height: 350.0,
+                      width: 350.0,
+                    )
+                  : Image.network(
+                      "https://conteudo.imguol.com.br/c/noticias/cf/2019/08/10/fone-de-ouvido---tilt-1565457983857_v2_450x337.png",
+                      fit: BoxFit.fill,
+                      height: 350.0,
+                      width: 350.0,
+                    ),
+            ),
           ),
           SizedBox(height: 40),
           Text(
@@ -71,7 +72,7 @@ class _MusicPageState extends State<MusicPage> {
                 ),
               ),
               Text(
-                "3:00",
+                HandleTime.convertMsToHour(int.parse(args.duration)),
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ]),
