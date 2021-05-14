@@ -12,6 +12,8 @@ class MusicPage extends StatefulWidget {
 }
 
 class _MusicPageState extends State<MusicPage> {
+  bool isPlaying = false;
+
   @override
   Widget build(BuildContext context) {
     Background background = Background.instance;
@@ -89,14 +91,29 @@ class _MusicPageState extends State<MusicPage> {
                 ),
                 onPressed: () {},
               ),
-              IconButton(
-                  splashRadius: 40,
-                  color: Colors.deepPurple,
-                  iconSize: 70,
-                  icon: Icon(Icons.play_circle_fill),
-                  onPressed: () async {
-                    background.onPlay(item: args.path);
-                  }),
+              isPlaying
+                  ? IconButton(
+                      splashRadius: 40,
+                      color: Colors.deepPurple,
+                      iconSize: 70,
+                      icon: Icon(Icons.stop),
+                      onPressed: () async {
+                        setState(() {
+                          isPlaying = false;
+                        });
+                        background.onStop();
+                      })
+                  : IconButton(
+                      splashRadius: 40,
+                      color: Colors.deepPurple,
+                      iconSize: 70,
+                      icon: Icon(Icons.play_circle_fill),
+                      onPressed: () async {
+                        setState(() {
+                          isPlaying = !isPlaying;
+                        });
+                        background.onPlay(item: args.path);
+                      }),
               IconButton(
                 splashRadius: 30,
                 color: Color(0xFF474575),
